@@ -12,9 +12,13 @@ public interface NoteMapper {
     int addNote(Note note);
 
     @Select("SELECT * FROM NOTES WHERE userid = #{userid}")
+    @Results({
+            @Result(id = true, property = "id", column = "noteid"),
+            @Result(property = "title", column = "notetitle"),
+            @Result(property = "description", column = "notedescription"),
+            @Result(property = "userid", column = "userid")
+    })
     List<Note> getAllNotes(Integer userid);
-
-
 
     @Delete("DELETE FROM NOTES WHERE noteid = #{noteid}")
     int deleteNote(int noteid);

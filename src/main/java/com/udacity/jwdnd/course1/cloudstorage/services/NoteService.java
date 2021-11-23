@@ -25,10 +25,9 @@ public class NoteService {
         System.out.println("Creating NoteService bean");
     }
 
-    public void addNote (NoteForm noteForm, Authentication authentication) {
-        String title = noteForm.getTitle();
-        String description = noteForm.getDescription();
-        int userID = userMapper.getID(authentication.getName());
+    public void addNote (String title, String description, String username) {
+
+        int userID = userMapper.getID(username);
 
         Note note = new Note();
         note.setTitle(title);

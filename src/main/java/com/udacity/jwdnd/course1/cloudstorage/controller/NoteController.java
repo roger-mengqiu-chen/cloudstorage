@@ -21,7 +21,11 @@ public class NoteController {
 
     @PostMapping("/add")
     public String addNote(NoteForm noteForm, Model model, Authentication authentication) {
-        noteService.addNote(noteForm, authentication);
+
+        String title = noteForm.getTitle();
+        String description = noteForm.getDescription();
+        String username = authentication.getName();
+        noteService.addNote(title, description, username);
 
         return "/result";
     }
