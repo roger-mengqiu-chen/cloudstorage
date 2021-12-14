@@ -36,6 +36,7 @@ public class HomeController {
         List<Note> notes = noteService.getAllNotes(authentication);
         List<Credential> credentials = credentialService.getAllCredentialsOfUser(authentication);
         model.addAttribute("notes", notes);
+        model.addAttribute("credentials", credentials);
         return "home";
     }
 
