@@ -40,7 +40,7 @@ public class NoteController {
             model.addAttribute("result", "fail");
         }
         model.addAttribute("notes", noteService.getAllNotes(authentication));
-        return "/result";
+        return "result";
     }
 
     @GetMapping("/note/delete/{noteId}")
@@ -56,6 +56,6 @@ public class NoteController {
         }
         model.addAttribute("notes", noteService.getAllNotes(authentication));
 
-        return "/result";
+        return "result";
     }
 }
