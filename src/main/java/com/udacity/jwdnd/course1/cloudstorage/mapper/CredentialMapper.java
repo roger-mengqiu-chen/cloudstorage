@@ -7,34 +7,34 @@ import java.util.List;
 
 @Mapper
 public interface CredentialMapper {
-    @Select("SELECTE * FROM CREDENTIALS WHERE userid = #{userid}")
+    @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userid}")
     @Results({
-         @Result(id = true, property = "id", column = "credentialid")
+         @Result(id = true, property = "credentialId", column = "credentialid")
          , @Result (property = "url", column = "url")
          , @Result (property = "username", column = "username")
          , @Result (property = "key", column = "key")
          , @Result (property = "password", column = "password")
-         , @Result (property = "userid", column = "userid")
+         , @Result (property = "userId", column = "userid")
     })
     List<Credential> getCredentialOfUser(int userid);
 
     @Select("SELECT * FROM CREDENTIALS WHERE credentialid = #{id}")
     @Results({
-            @Result(id = true, property = "id", column = "credentialid")
+            @Result(id = true, property = "credentialId", column = "credentialid")
             , @Result (property = "url", column = "url")
             , @Result (property = "username", column = "username")
             , @Result (property = "key", column = "key")
             , @Result (property = "password", column = "password")
-            , @Result (property = "userid", column = "userid")
+            , @Result (property = "userId", column = "userid")
     })
     Credential getCredentialById(int id);
 
     @Insert("INSERT INTO CREDENTIALS " +
             "(url, username, key, password, userid)" +
-            "VALUES (#{url}, #{username}, #{key}, #{password}, #{userid})")
+            "VALUES (#{url}, #{username}, #{key}, #{password}, #{userId})")
     int addCredential(Credential credential);
 
-    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{id}")
+    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialId}")
     int deleteCredentialById(int id);
 
     @Update("UPDATE CREDENTIALS" +
