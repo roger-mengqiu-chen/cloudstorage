@@ -27,4 +27,13 @@ public interface NoteMapper {
             "SET notetitle = #{title}, notedescription = #{desc} " +
             "WHERE noteid = #{id}")
     int updateNote(Integer id, String title, String desc);
+
+    @Select("SELECT * FROM NOTES WHERE noteid = #{id}")
+    @Results({
+            @Result(id = true, property = "id", column = "noteid"),
+            @Result(property = "title", column = "notetitle"),
+            @Result(property = "description", column = "notedescription"),
+            @Result(property = "userid", column = "userid")
+    })
+    Note getNoteById(int id);
 }
