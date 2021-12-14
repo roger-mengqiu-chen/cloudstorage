@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
     public SecurityConfig(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -25,11 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/signup", "/css/**", "/js/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated();
-
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
 
         http.formLogin()
                 .loginPage("/login")
@@ -38,12 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .defaultSuccessUrl("/home", true);
 
-        http.logout(
-                logout -> logout
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-        );
+        http.logout();
 
 
     }
