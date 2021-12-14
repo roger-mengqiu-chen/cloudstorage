@@ -49,4 +49,8 @@ public class NoteService {
     public int update(int id, String title, String desc) {
         return noteMapper.updateNote(id, title, desc);
     }
+
+    public int deleteNoteById(int id) {
+        return noteMapper.deleteNote(id);
+    }
 }
