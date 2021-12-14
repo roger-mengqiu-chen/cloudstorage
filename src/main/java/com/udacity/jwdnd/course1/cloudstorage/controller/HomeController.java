@@ -16,9 +16,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-    private FileService fileService;
-    private NoteService noteService;
-    private CredentialService credentialService;
+    private final FileService fileService;
+    private final NoteService noteService;
+    private final CredentialService credentialService;
 
     public  HomeController (FileService fileService, NoteService noteService, CredentialService credentialService) {
         this.fileService = fileService;
@@ -29,14 +29,6 @@ public class HomeController {
     public String getHomePage (Model model, Authentication authentication, NoteForm noteForm) {
 
         List<Note> notes = noteService.getAllNotes(authentication);
-
-        System.out.println("Note size: "+notes.size());
-        System.out.println("Note display from home controller");
-        for (Note n : notes) {
-            System.out.println(n);
-
-        }
-
         model.addAttribute("notes", notes);
         return "home";
     }
