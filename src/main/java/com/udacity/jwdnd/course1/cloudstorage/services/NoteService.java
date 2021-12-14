@@ -12,8 +12,8 @@ import java.util.List;
 
 @Service
 public class NoteService {
-    private NoteMapper noteMapper;
-    private UserMapper userMapper;
+    private final NoteMapper noteMapper;
+    private final UserMapper userMapper;
 
     public NoteService (NoteMapper noteMapper, UserMapper userMapper) {
         this.noteMapper = noteMapper;
@@ -33,20 +33,20 @@ public class NoteService {
         note.setTitle(title);
         note.setDescription(description);
         note.setUserid(userID);
-        System.out.println("title: " + title);
-        System.out.println(("description: " + description));
-        System.out.println(("userID: " + userID));
-
-        System.out.println("note to be added: "+ note);
 
         noteMapper.addNote(note);
     }
 
     public List<Note> getAllNotes (Authentication authentication) {
         int id = userMapper.getID(authentication.getName());
-        System.out.println("User id: " + id);
-        List<Note> list = noteMapper.getAllNotes(id);
+        return noteMapper.getAllNotes(id);
+    }
 
-        return list;
+    public Note getNoteById(int id){
+        return noteMapper.getNoteById(id);
+    }
+
+    public int update(int id, String title, String desc) {
+        return noteMapper.updateNote(id, title, desc);
     }
 }
