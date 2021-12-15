@@ -10,7 +10,7 @@ public interface FileMapper {
 
     @Insert("INSERT INTO FILES " +
             "(filename, contenttype, filesize, userid, filedata) " +
-            "VALUES (#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData}})")
+            "VALUES (#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     int addFile(File file);
 
@@ -19,8 +19,24 @@ public interface FileMapper {
     int deleteFile(int id);
 
     @Select("SELECT * FROM FILES WHERE fileId = #{id}")
+    @Results ({
+            @Result(id = true, property = "fileId", column = "fileId"),
+            @Result(property = "fileName", column = "filename"),
+            @Result(property = "contentType", column = "contenttype"),
+            @Result(property = "fileSize", column = "filesize"),
+            @Result(property = "userId", column = "userid"),
+            @Result(property = "fileData", column = "filedata")
+    })
     File getFile(int id);
 
     @Select("SELECT * FROM FILES WHERE userid = #{userId}")
+    @Results ({
+            @Result(id = true, property = "fileId", column = "fileId"),
+            @Result(property = "fileName", column = "filename"),
+            @Result(property = "contentType", column = "contenttype"),
+            @Result(property = "fileSize", column = "filesize"),
+            @Result(property = "userId", column = "userid"),
+            @Result(property = "fileData", column = "filedata")
+    })
     List<File> getAllFiles(int userId);
 }
