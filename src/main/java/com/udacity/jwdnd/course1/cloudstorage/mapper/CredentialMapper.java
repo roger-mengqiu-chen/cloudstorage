@@ -34,7 +34,7 @@ public interface CredentialMapper {
             "VALUES (#{url}, #{username}, #{key}, #{password}, #{userId})")
     int addCredential(Credential credential);
 
-    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialId}")
+    @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{id}")
     int deleteCredentialById(int id);
 
     @Update("UPDATE CREDENTIALS" +
