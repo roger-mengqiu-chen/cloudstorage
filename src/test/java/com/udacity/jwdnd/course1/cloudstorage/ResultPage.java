@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -16,6 +17,10 @@ public class ResultPage {
     public ResultPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
+    }
+
+    public boolean isSuccess(WebDriver driver) {
+        return driver.findElement(By.id("aResultSuccess")) != null;
     }
 
     public void clickOK() {
