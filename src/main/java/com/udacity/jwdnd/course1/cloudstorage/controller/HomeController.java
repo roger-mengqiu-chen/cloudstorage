@@ -1,9 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
-import com.udacity.jwdnd.course1.cloudstorage.model.Note;
-import com.udacity.jwdnd.course1.cloudstorage.model.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
@@ -31,12 +28,15 @@ public class HomeController {
     public String getHomePage (Model model
                                 , Authentication authentication
                                 , NoteForm noteForm
-                                , CredentialForm credentialForm) {
+                                , CredentialForm credentialForm
+                                , FileForm fileForm) {
 
         List<Note> notes = noteService.getAllNotes(authentication);
         List<Credential> credentials = credentialService.getAllCredentialsOfUser(authentication);
+        List<File> files = fileService.getAllFiles(authentication);
         model.addAttribute("notes", notes);
         model.addAttribute("credentials", credentials);
+        model.addAttribute("files", files);
         return "home";
     }
 
