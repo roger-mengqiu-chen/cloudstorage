@@ -9,14 +9,11 @@ import org.openqa.selenium.support.PageFactory;
 
 public class ResultPage {
 
-    private final JavascriptExecutor js;
-
     @FindBy(id = "aResultSuccess")
     private WebElement aResultSuccess;
 
     public ResultPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        js = (JavascriptExecutor) driver;
     }
 
     public boolean isSuccess(WebDriver driver) {
@@ -24,6 +21,6 @@ public class ResultPage {
     }
 
     public void clickOK() {
-        js.executeScript("arguments[0].click();", aResultSuccess);
+        aResultSuccess.click();
     }
 }
