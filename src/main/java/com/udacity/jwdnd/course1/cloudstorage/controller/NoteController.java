@@ -45,7 +45,7 @@ public class NoteController {
 
     @GetMapping("/note/delete/{noteId}")
     public String deleteNote (@PathVariable Integer noteId
-                                , @ModelAttribute NoteForm noteForm
+                                , @ModelAttribute("noteForm") NoteForm noteForm
                                 , Model model, Authentication authentication) {
         try {
             noteService.deleteNoteById(noteId);
