@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,8 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class SignupPage {
-
-    private final JavascriptExecutor js;
 
     @FindBy(id = "successBanner")
     private WebElement successBanner;
@@ -31,29 +30,30 @@ public class SignupPage {
     @FindBy(id = "btn-submit")
     private WebElement submitBtn;
 
+    @FindBy(id = "aBackToLogin")
+    private WebElement aBackToLogin;
+
     public SignupPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
-        js = (JavascriptExecutor) driver;
     }
 
-    public void setFirstName (String firstName) {
-        js.executeScript("arguments[0].value='" + firstName + "';", firstName);
+    public void signup(String firstName, String lastName, String userName, String password){
+        this.inputFirstName.sendKeys(firstName);
+        this.inputLastName.sendKeys(lastName);
+        this.inputUserName.sendKeys(userName);
+        this.inputPassword.sendKeys(password);
+        this.submitBtn.click();
     }
 
-    public void setLastName (String lastName) {
-        js.executeScript("arguments[0].value='" + lastName + "';", lastName );
+    public boolean isSuccess() {
+        return successBanner != null;
     }
 
-    public void setUserName (String userName) {
-        js.executeScript("arguments[0].value='" + userName + "';", userName );
+    public boolean isFail() {
+        return failBanner != null;
     }
 
-    public void setPassword (String password) {
-        js.executeScript("arguments[0].value='" + password + "';", password );
+    public void backToLogin() {
+        this.aBackToLogin.click();
     }
-
-    public void submit() {
-        js.executeScript("arguments[0].click();", submitBtn);
-    }
-
 }
