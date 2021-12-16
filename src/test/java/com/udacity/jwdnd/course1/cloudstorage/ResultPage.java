@@ -16,8 +16,8 @@ public class ResultPage {
         PageFactory.initElements(driver, this);
     }
 
-    public boolean isSuccess(WebDriver driver) {
-        return driver.findElement(By.id("aResultSuccess")) != null;
+    public boolean isSuccess() {
+        return this.aResultSuccess != null;
     }
 
     public void clickOK() {
