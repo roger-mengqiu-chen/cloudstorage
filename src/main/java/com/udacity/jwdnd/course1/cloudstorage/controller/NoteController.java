@@ -32,9 +32,15 @@ public class NoteController {
             } else {
                 int id = Integer.parseInt(noteId);
                 Note note = noteService.getNoteById(id);
-                noteService.update(note.getId(), title, description);
+                if (!noteService.isDuplicate(title, authentication)) {
+                    noteService.update(note.getId(), title, description);
+                    model.addAttribute("result", "success");
+                }
+                else {
+                    model.addAttribute("result", "error");
+                    model.addAttribute("msg", "Note already existed");
+                }
             }
-            model.addAttribute("result", "success");
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("result", "fail");
