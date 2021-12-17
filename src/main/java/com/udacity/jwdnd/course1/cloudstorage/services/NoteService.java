@@ -53,4 +53,14 @@ public class NoteService {
     public int deleteNoteById(int id) {
         return noteMapper.deleteNote(id);
     }
+
+    public boolean isDuplicate(String title, Authentication authentication) {
+        List<Note> notes = getAllNotes(authentication);
+        for (Note n : notes) {
+            if (n.getTitle().equals(title)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
