@@ -56,9 +56,11 @@ public class NoteService {
 
     public boolean isDuplicate(String title, Authentication authentication) {
         List<Note> notes = getAllNotes(authentication);
-        for (Note n : notes) {
-            if (n.getTitle().equals(title)) {
-                return true;
+        if (notes.size() > 0) {
+            for (Note n : notes) {
+                if (n.getTitle().equals(title)) {
+                    return true;
+                }
             }
         }
         return false;
