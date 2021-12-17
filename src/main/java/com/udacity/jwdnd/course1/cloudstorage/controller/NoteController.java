@@ -26,26 +26,33 @@ public class NoteController {
         String noteId = noteForm.getNoteId();
         String username = authentication.getName();
 
-        try {
-            if (noteId == null || noteId.equals("")) {
-                noteService.addNote(title, description, username);
-            } else {
-                int id = Integer.parseInt(noteId);
-                Note note = noteService.getNoteById(id);
-                if (!noteService.isDuplicate(title, authentication)) {
+        if (noteService.isDuplicate(title, authentication)) {
+            model.addAttribute("result", "error");
+            model.addAttribute("msg", "Note already existed");
+            return "result";
+        }
+        else {
+            try {
+                if (noteId == null || noteId.equals("")) {
+
+                    noteService.addNote(title, description, username);
+                    model.addAttribute("result", "success");
+
+                } else {
+                    int id = Integer.parseInt(noteId);
+                    Note note = noteService.getNoteById(id);
+
                     noteService.update(note.getId(), title, description);
                     model.addAttribute("result", "success");
+
                 }
-                else {
-                    model.addAttribute("result", "error");
-                    model.addAttribute("msg", "Note already existed");
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                model.addAttribute("result", "fail");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("result", "fail");
+            model.addAttribute("notes", noteService.getAllNotes(authentication));
+
         }
-        model.addAttribute("notes", noteService.getAllNotes(authentication));
         return "result";
     }
 
