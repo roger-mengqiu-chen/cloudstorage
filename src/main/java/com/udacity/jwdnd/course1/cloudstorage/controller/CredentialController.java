@@ -3,12 +3,15 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.model.CredentialForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 
@@ -45,16 +48,27 @@ public class CredentialController {
                 model.addAttribute("result", "success");
             } else {
                 int id = Integer.parseInt(credentialId);
+                Credential c = credentialService.getCredentialById(id);
                 credentialService.update(id, url, username, password);
                 model.addAttribute("result", "success");
             }
-
             model.addAttribute("credentials", credentialService.getAllCredentialsOfUser(authentication));
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("result", "fail");
         }
         return "result";
+    }
+
+    @GetMapping(value="/credential/getDecryptedCredential", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Map<String, String> getDecryptedCredential(@RequestParam Integer credentialId) {
+        Credential credential = credentialService.getCredentialById(credentialId);
+        String decryptedPassword = credentialService.decryptPassword(credential);
+        Map<String, String> map = new HashMap<>();
+        map.put("encryptedPassword", credential.getPassword());
+        map.put("decryptedPassword", decryptedPassword);
+        return map;
     }
 
     @GetMapping("/credential/delete/{credentialId}")
