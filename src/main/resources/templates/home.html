@@ -219,14 +219,29 @@
                 $('#noteModal').modal('show');
             }
 
+            async function getDecryptedPassword(credentialId) {
+                let port = location.port;
+                let response = await fetch (`http://localhost:${port}/credential/getDecryptedCredential?credentialId=${credentialId}`);
+                if(response.ok) {
+                    let data = await response.json();
+                    let resultData = JSON.parse(JSON.stringify(data));
+                    return resultData.decryptedPassword;
+                }
+                else {
+                    alert("HTTP-Error: " + response.status);
+                }
+            }
+
             // For opening the credentials modal
-            function showCredentialModal(credentialId, url, username, password) {
+            async function showCredentialModal(credentialId, url, username, password) {
                 $('#credential-id').val(credentialId ? credentialId : '');
                 $('#credential-url').val(url ? url : '');
                 $('#credential-username').val(username ? username : '');
-                $('#credential-password').val(password ? password : '');
+                $('#credential-password').val(password ? await getDecryptedPassword(credentialId) : '');
                 $('#credentialModal').modal('show');
             }
+
+
         </script>
     </body>
 </html>
