@@ -59,4 +59,13 @@ public class FileService {
     public void delete(int fileId) {
         fileMapper.deleteFile(fileId);
     }
+
+    public boolean isDuplicateFileName(String name, Authentication authentication) {
+        for (File f : getAllFiles(authentication)) {
+            if(f.getFileName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
