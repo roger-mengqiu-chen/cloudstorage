@@ -3,14 +3,15 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.util.List;
 
 @Controller
@@ -24,11 +25,23 @@ public class FileController {
     @PostMapping("/file/add")
     public String addFile(FileForm fileForm, Model model, Authentication authentication) {
         MultipartFile file = fileForm.getFile();
+        String fileName = file.getOriginalFilename();
         try {
-            fileService.addFile(file, authentication);
-            model.addAttribute("result", "success");
+            if (fileName == null || fileName.equals("")) {
+                model.addAttribute("result", "error");
+                model.addAttribute("msg", "Need select a file");
+            }
+            else if(fileService.isDuplicateFileName(fileName, authentication)) {
+                model.addAttribute("result", "error");
+                model.addAttribute("msg", "The file already existed");
+            } else {
 
-        } catch (Exception e) {
+                fileService.addFile(file, authentication);
+                model.addAttribute("result", "success");
+
+            }
+        }
+        catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("result", "fail");
         }
@@ -60,6 +73,5 @@ public class FileController {
         model.addAttribute("files", files);
         return "result";
     }
-
 
 }
