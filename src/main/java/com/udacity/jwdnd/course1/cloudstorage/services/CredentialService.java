@@ -26,25 +26,21 @@ public class CredentialService {
     public List<Credential> getAllCredentialsOfUser(Authentication authentication) {
         User user = userMapper.getUser(authentication.getName());
         List<Credential> credentials = credentialMapper.getCredentialOfUser(user.getUserId());
-        // decrypt each credential in the list
-        for (Credential c : credentials) {
-            decryptPassword(c);
-        }
+
         return credentials;
     }
 
     public Credential getCredentialById(Integer id) {
         Credential credential =  credentialMapper.getCredentialById(id);
-        // need decrypt the password
-        decryptPassword(credential);
+
         return credential;
     }
 
-    private void decryptPassword (Credential credential) {
+    public String decryptPassword (Credential credential) {
         String key = credential.getKey();
         String encryptedPassword = credential.getPassword();
         String decryptedPassword = encryptionService.decryptValue(encryptedPassword, key);
-        credential.setPassword(decryptedPassword);
+        return decryptedPassword;
     }
 
     public void delete (Integer id) {
